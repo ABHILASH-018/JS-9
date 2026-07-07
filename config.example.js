@@ -16,8 +16,8 @@
  */
 
 window.EMAILJS_CONFIG = {
-    publicKey:          "YC5Cqq3PRAyukZ4qv",
-    serviceId:          "service_ysccv5s",
-    bookingTemplate:    "template_1yxfmwt",
-    newsletterTemplate: "template_3zc969r"
+    publicKey:          "YOUR_PUBLIC_KEY_HERE",
+    serviceId:          "YOUR_SERVICE_ID_HERE",
+    bookingTemplate:    "YOUR_BOOKING_TEMPLATE_ID_HERE",
+    newsletterTemplate: "YOUR_NEWSLETTER_TEMPLATE_ID_HERE"
 };
