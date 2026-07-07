@@ -5,11 +5,13 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Book professional laundry services online — wash, dry, iron and more.">
 
-    <title>Laundry Services</title>
+    <title>Laundry Services | Book Online</title>
 
     <link rel="stylesheet" href="styles.css">
 
+    <!-- Font Awesome for icons used in the "Why Choose Us" section -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
@@ -17,6 +19,7 @@
 
 <body>
 
+    <!-- ===================== NAVIGATION ===================== -->
     <header>
 
         <nav class="navbar">
@@ -32,6 +35,7 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
 
+            <!-- Updated by JS after a successful booking -->
             <div class="user-area">
                 Welcome, <span id="userName">Guest</span>
             </div>
@@ -40,6 +44,7 @@
 
     </header>
 
+    <!-- ===================== HERO ===================== -->
     <section class="hero" id="home">
 
         <div class="hero-content">
@@ -51,20 +56,17 @@
                 Choose your service and book online in minutes.
             </p>
 
-            <a href="#booking" class="btn">
-                Book Now
-            </a>
+            <a href="#booking" class="btn">Book Now</a>
 
         </div>
 
         <div class="hero-image">
-
-            <img src="washingmachine.png" alt="Laundry Machine">
-
+            <img src="washingmachine.png" alt="Washing machine illustration">
         </div>
 
     </section>
 
+    <!-- ===================== STATS STRIP ===================== -->
     <section class="stats">
 
         <div class="stat-box">
@@ -84,100 +86,110 @@
 
     </section>
 
+    <!-- ===================== SERVICES ===================== -->
+    <!--
+        Each button calls addService(name, price).
+        The function is defined in script.js and exposed on window
+        so inline onclick handlers can reach it.
+    -->
     <section class="services" id="services">
 
-        <h2 class="section-title">
-            Our Services
-        </h2>
+        <h2 class="section-title">Our Services</h2>
 
         <div class="service-list">
 
             <div class="service-item">
                 <span>Dry Cleaning</span>
                 <span>$10</span>
-                <button onclick="addService('Dry Cleaning',10)">Add</button>
+                <button onclick="addService('Dry Cleaning', 10)">Add</button>
             </div>
 
             <div class="service-item">
-                <span>Wash & Fold</span>
+                <span>Wash &amp; Fold</span>
                 <span>$8</span>
-                <button onclick="addService('Wash & Fold',8)">Add</button>
+                <button onclick="addService('Wash & Fold', 8)">Add</button>
             </div>
 
             <div class="service-item">
                 <span>Ironing</span>
                 <span>$5</span>
-                <button onclick="addService('Ironing',5)">Add</button>
+                <button onclick="addService('Ironing', 5)">Add</button>
             </div>
 
             <div class="service-item">
                 <span>Stain Removal</span>
                 <span>$12</span>
-                <button onclick="addService('Stain Removal',12)">Add</button>
+                <button onclick="addService('Stain Removal', 12)">Add</button>
             </div>
 
             <div class="service-item">
                 <span>Premium Laundry</span>
                 <span>$20</span>
-                <button onclick="addService('Premium Laundry',20)">Add</button>
+                <button onclick="addService('Premium Laundry', 20)">Add</button>
             </div>
 
         </div>
 
     </section>
 
+    <!-- ===================== BOOKING ===================== -->
     <section class="booking" id="booking">
 
+        <!-- Left panel: live cart showing selected services -->
         <div class="cart">
-
             <h2>Your Services</h2>
-
             <ul id="selectedItems"></ul>
-
         </div>
 
+        <!-- Right panel: contact details form -->
         <div class="booking-form">
 
             <h2>Book Laundry Service</h2>
 
-            <form id="bookingForm">
+            <form id="bookingForm" novalidate>
 
                 <input
                     type="text"
                     id="name"
                     placeholder="Full Name"
-                    required>
+                    autocomplete="name">
+                <!-- Per-field error hint — hidden until validation fails -->
+                <p class="field-error" id="nameError"></p>
 
                 <input
                     type="email"
                     id="email"
                     placeholder="Email Address"
-                    required>
+                    autocomplete="email">
+                <p class="field-error" id="emailError"></p>
 
                 <input
                     type="tel"
                     id="phone"
                     placeholder="Phone Number"
-                    required>
+                    autocomplete="tel">
+                <p class="field-error" id="phoneError"></p>
 
-                <h3>
-                    Total : $<span id="totalPrice">0</span>
-                </h3>
+                <h3>Total : $<span id="totalPrice">0</span></h3>
 
-                <button type="submit">
-                    Book Now
-                </button>
+                <button type="submit" id="submitBtn">Book Now</button>
 
             </form>
 
-            <p id="successMessage" class="success-message">
-                Thank you! Your booking has been received.
-            </p>
+            <!--
+                Two separate feedback messages:
+                  #successMessage — shown when EmailJS confirms the email was sent
+                  #errorMessage   — shown when EmailJS returns an error (distinct style)
+                Both are hidden by default via CSS (display:none).
+            -->
+            <p id="successMessage" class="success-message"></p>
+            <p id="errorMessage"   class="error-message"></p>
 
         </div>
 
     </section>
 
+    <!-- ===================== WHY CHOOSE US ===================== -->
     <section class="quality" id="quality">
 
         <h2>Why Choose Us?</h2>
@@ -212,32 +224,35 @@
 
     </section>
 
+    <!-- ===================== NEWSLETTER ===================== -->
     <section class="newsletter">
 
         <h2>Newsletter</h2>
 
-        <form id="newsletterForm">
+        <form id="newsletterForm" novalidate>
 
             <input
                 type="text"
                 id="newsletterName"
                 placeholder="Your Name"
-                required>
+                autocomplete="name">
 
             <input
                 type="email"
                 id="newsletterEmail"
                 placeholder="Your Email"
-                required>
+                autocomplete="email">
 
-            <button type="submit">
-                Subscribe
-            </button>
+            <button type="submit">Subscribe</button>
 
         </form>
 
+        <!-- Newsletter feedback — inline, no alert() popups -->
+        <p id="newsletterFeedback" class="newsletter-feedback"></p>
+
     </section>
 
+    <!-- ===================== FOOTER ===================== -->
     <footer id="contact">
 
         <div class="footer-container">
@@ -262,19 +277,21 @@
 
         </div>
 
-        <p class="copyright">
-            © 2026 Laundry Services
-        </p>
+        <p class="copyright">© 2026 Laundry Services</p>
 
     </footer>
 
-    <!-- EmailJS -->
+    <!-- ===================== SCRIPTS ===================== -->
 
+    <!-- EmailJS SDK — must come before config.js and script.js -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
-    <script>
-        emailjs.init("YC5Cqq3PRAyukZ4qv");
-    </script>
+    <!--
+        config.js holds our credentials as window.EMAILJS_CONFIG.
+        It is listed in .gitignore so it never gets committed.
+        Reviewers should copy config.example.js → config.js and fill in their own keys.
+    -->
+    <script src="config.js"></script>
 
     <script src="script.js"></script>
 

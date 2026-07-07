@@ -1,0 +1,11 @@
+# --- Credentials ---
+# config.js holds your real EmailJS keys (public key, service ID, template IDs).
+# It must NEVER be pushed to GitHub. This line keeps it local only.
+config.js
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+
+# --- Editor folders ---
+.vscode/

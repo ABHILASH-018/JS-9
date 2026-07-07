@@ -2,203 +2,165 @@
 
 ## Project Description
 
-This is a Laundry Booking Website made using HTML, CSS and JavaScript. Users can choose laundry services, see the total price, book a service and subscribe to the newsletter. The project also uses EmailJS to send confirmation emails.
+A front-end laundry booking site built with HTML, CSS and vanilla JavaScript.
+Users can pick services, see a running cart total, submit a booking form, and
+subscribe to a newsletter. Confirmation emails are sent through EmailJS.
 
 ---
 
 ## Features
 
-- Responsive website
-- Laundry service selection
-- Shopping cart with total price
-- Booking form
-- Newsletter subscription
-- Confirmation email using EmailJS
-- User name displayed in the navigation bar
-- Local storage to save selected services
+- Responsive layout (mobile stacking via media query)
+- Service selection with a live cart
+- LocalStorage persistence — cart survives a page refresh
+- Booking form with **inline field validation** (no browser alert popups)
+- **Distinct success vs. error feedback** after submitting the booking form
+- Newsletter subscription with inline feedback
+- User name displayed in the navbar after a successful booking
+- Confirmation emails via EmailJS
 
 ---
 
-## Technologies Used
+## Technologies
 
 - HTML5
 - CSS3
-- JavaScript
-- EmailJS
-- Font Awesome
+- JavaScript (ES6+)
+- [EmailJS](https://www.emailjs.com/) (free tier)
+- Font Awesome 6
 
 ---
 
 ## Project Files
 
 ```
-LaundryProject/
-
-│── index.html
-│── styles.css
-│── script.js
-│── README.md
-│── washingmachine.png
+JS-9/
+├── index.html           ← page structure and section comments
+├── styles.css           ← all styling, section comments, mobile breakpoint
+├── script.js            ← cart logic, validation, EmailJS calls
+├── config.js            ← YOUR real credentials (gitignored — never commit this)
+├── config.example.js    ← safe placeholder to show reviewers what to fill in
+├── .gitignore           ← ensures config.js is never pushed to GitHub
+├── washingmachine.png
+└── README.md
 ```
 
 ---
 
-# How to Run
+## Security: Why credentials live in `config.js`
 
-1. Download or clone the project.
+Hardcoding API keys directly in `script.js` or `index.html` is a problem
+because **anyone who views the page source can read them**. Rotating exposed
+keys is painful; using environment variables or a backend proxy is the correct
+long-term solution, but for this pure front-end project the accepted approach is:
 
-2. Open the project folder.
+1. Store credentials in a separate file (`config.js`) as a global JS object.
+2. Add `config.js` to `.gitignore` so it is never committed to version control.
+3. Ship `config.example.js` (placeholders only) so other developers know exactly
+   what to fill in.
 
-3. Open the `index.html` file in your web browser.
-
-The website will work normally, but email confirmation requires EmailJS to be configured.
-
----
-
-# EmailJS Setup
-
-## Step 1
-
-Go to:
-
-https://www.emailjs.com/
-
-Create a free EmailJS account.
+> **If you accidentally commit `config.js`**, rotate your EmailJS public key
+> immediately from the EmailJS dashboard → Account → Public Key.
 
 ---
 
-## Step 2
+## How to Run
 
-Add an Email Service.
+1. Clone or download the project folder.
+2. **Copy** `config.example.js` and rename the copy to `config.js`.
+3. Fill in your real EmailJS credentials inside `config.js` (see setup below).
+4. Open `index.html` in any modern browser.
 
-You can connect Gmail or another email provider.
-
-Copy your **Service ID**.
-
-Example:
-
-```
-service_xxxxxxx
-```
+The site works fully without a local server.
+Email confirmation requires valid EmailJS credentials in `config.js`.
 
 ---
 
-## Step 3
+## EmailJS Setup
 
-Create a template for booking confirmation.
+### Step 1 — Create an account
 
-Copy the Template ID.
+Go to <https://www.emailjs.com/> and sign up for a free account.
 
-Example:
+### Step 2 — Add an Email Service
 
-```
-template_booking
-```
+- Dashboard → **Email Services** → Add Service (connect Gmail or another provider)
+- Copy your **Service ID** (looks like `service_xxxxxxx`)
 
-Create another template for the newsletter.
+### Step 3 — Create two Email Templates
 
-Copy that Template ID as well.
+**Booking confirmation template** — variables used:
 
-Example:
+| Variable | Description |
+|---|---|
+| `{{customer_name}}` | Customer's full name |
+| `{{customer_email}}` | Customer's email |
+| `{{phone}}` | Phone number |
+| `{{services}}` | Comma-separated list of booked services |
+| `{{total}}` | Total price in dollars |
 
-```
-template_newsletter
-```
+Copy the **Template ID** (looks like `template_xxxxxxx`).
 
----
+**Newsletter template** — variables used:
 
-## Step 4
+| Variable | Description |
+|---|---|
+| `{{customer_name}}` | Subscriber's name |
+| `{{customer_email}}` | Subscriber's email |
 
-Open **Account** in EmailJS.
+Copy that **Template ID** too.
 
-Copy your **Public Key**.
+### Step 4 — Get your Public Key
 
-Example:
+Dashboard → **Account** → **Public Key** (looks like `ABCD1234XYZ`)
 
-```
-ABCD1234XYZ
-```
+### Step 5 — Fill in `config.js`
 
----
+Open your local `config.js` (not `config.example.js`) and replace the placeholders:
 
-## Step 5
-
-Open **index.html**
-
-Replace
-
-```javascript
-emailjs.init("YOUR_PUBLIC_KEY");
-```
-
-with
-
-```javascript
-emailjs.init("YOUR_PUBLIC_KEY_HERE");
+```js
+window.EMAILJS_CONFIG = {
+    publicKey:          "your_real_public_key",
+    serviceId:          "service_xxxxxxx",
+    bookingTemplate:    "template_xxxxxxx",
+    newsletterTemplate: "template_yyyyyyy"
+};
 ```
 
----
-
-## Step 6
-
-Open **script.js**
-
-Replace
-
-```javascript
-YOUR_SERVICE_ID
-```
-
-with your Service ID.
-
-Replace
-
-```javascript
-YOUR_BOOKING_TEMPLATE
-```
-
-with your Booking Template ID.
-
-Replace
-
-```javascript
-YOUR_NEWSLETTER_TEMPLATE
-```
-
-with your Newsletter Template ID.
-
-Save the files and refresh the browser.
+Save the file and refresh the browser. That's it — **no changes to `index.html`
+or `script.js` are needed**.
 
 ---
 
 ## How to Use
 
-1. Open the website.
+1. Open the site in a browser.
+2. Click **Add** on one or more services — they appear in the cart on the left.
+3. Fill in your Name, Email and Phone in the booking form.
+4. Click **Book Now**.
+   - ✅ If the email sends successfully → green banner with your email address shown.
+   - ⚠️ If the email fails → amber banner telling you the booking was received but
+     the confirmation could not be sent. **Your cart is kept** so you can try again.
+5. To subscribe, enter your name and email in the Newsletter section at the bottom.
 
-2. Add one or more laundry services.
+---
 
-3. The selected services will appear in the cart.
+## Feedback Behaviour (Success vs. Error)
 
-4. Enter your:
-   - Name
-   - Email
-   - Phone Number
-
-5. Click **Book Now**.
-
-6. If EmailJS is configured correctly, a confirmation email will be sent.
-
-7. Your name will appear in the navigation bar after booking.
-
-8. You can also subscribe using the newsletter form.
+| Scenario | What the user sees |
+|---|---|
+| Email sent successfully | Green banner: "Booking confirmed! A confirmation email has been sent to `email`." |
+| Email failed (wrong key, network, quota) | Amber banner: "Your booking details were received, but the confirmation email could not be sent…" — cart is **not** cleared |
+| Newsletter sent | White text: "You're subscribed! Check your inbox for a welcome email." |
+| Newsletter failed | Yellow text: "Subscription saved, but the welcome email could not be sent right now." |
 
 ---
 
 ## Future Improvements
 
-- Online payment
-- User login
-- Booking history
+- Backend proxy to fully hide EmailJS credentials server-side
+- Online payment integration
+- User login and booking history
 - Order tracking
 - Admin dashboard
 
@@ -212,4 +174,4 @@ Student Project
 
 ## License
 
-This project was created for educational purposes only.
+Created for educational purposes only.
