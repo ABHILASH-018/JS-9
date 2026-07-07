@@ -1,24 +1,3 @@
-/* ============================================================
-   styles.css — Laundry Booking App
-   ============================================================
-   Organised top to bottom in the same order as the HTML:
-     1. Reset & base
-     2. Navbar
-     3. Hero
-     4. Stats strip
-     5. Services
-     6. Booking / cart
-     7. About (quality grid)
-     8. Newsletter
-     9. Footer
-    10. Mobile media query
-   ============================================================ */
-
-
-/* ============================================================
-   1. RESET & BASE
-   Zero out browser defaults so spacing is fully in our control.
-   ============================================================ */
 * {
     margin: 0;
     padding: 0;
@@ -31,12 +10,8 @@ body {
     color: #333;
 }
 
+/* --- Navbar --- */
 
-/* ============================================================
-   2. NAVBAR
-   Horizontal bar across the top — logo left, links centre,
-   user greeting right.
-   ============================================================ */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -73,11 +48,8 @@ body {
     font-weight: bold;
 }
 
+/* --- Hero --- */
 
-/* ============================================================
-   3. HERO
-   Two-column layout: text on the left, image on the right.
-   ============================================================ */
 .hero {
     display: flex;
     align-items: center;
@@ -110,7 +82,6 @@ body {
     max-width: 100%;
 }
 
-/* Shared CTA button style used in the hero and anywhere else we need a blue pill */
 .btn {
     display: inline-block;
     background: #0d8bf2;
@@ -124,11 +95,8 @@ body {
     background: #066cc0;
 }
 
+/* --- Stats --- */
 
-/* ============================================================
-   4. STATS STRIP
-   Three numbers side by side to build trust quickly.
-   ============================================================ */
 .stats {
     display: flex;
     justify-content: space-around;
@@ -147,11 +115,8 @@ body {
     margin-bottom: 8px;
 }
 
+/* --- Services --- */
 
-/* ============================================================
-   5. SERVICES
-   Each service is a horizontal row: name — price — Add button.
-   ============================================================ */
 .services {
     padding: 50px;
 }
@@ -189,18 +154,14 @@ body {
     background: #066cc0;
 }
 
+/* --- Booking --- */
 
-/* ============================================================
-   6. BOOKING SECTION
-   Side-by-side: cart panel on the left, form on the right.
-   ============================================================ */
 .booking {
     display: flex;
     gap: 25px;
     padding: 50px;
 }
 
-/* --- Cart panel --- */
 .cart {
     width: 40%;
     background: white;
@@ -223,7 +184,6 @@ body {
     margin-bottom: 12px;
 }
 
-/* Red remove button inside the cart */
 .remove-btn {
     background: #e03b3b;
     color: white;
@@ -237,7 +197,6 @@ body {
     background: #b52a2a;
 }
 
-/* --- Booking form panel --- */
 .booking-form {
     width: 60%;
     background: white;
@@ -252,13 +211,13 @@ body {
 .booking-form input {
     width: 100%;
     padding: 12px;
-    margin-bottom: 4px;  /* reduced — field-error <p> sits in the gap */
+    margin-bottom: 4px;
     border: 1px solid #ccc;
     border-radius: 4px;
     transition: border-color 0.2s;
 }
 
-/* Red border on invalid inputs — added/removed by JS */
+/* red border added by JS when a field fails validation */
 .booking-form input.input-error {
     border-color: #e03b3b;
 }
@@ -278,26 +237,20 @@ body {
     background: #066cc0;
 }
 
-/* Disabled state while email is sending */
 .booking-form button[type="submit"]:disabled {
     background: #7ab8f5;
     cursor: not-allowed;
 }
 
-/* Per-field error hint — sits just below its input */
+/* small hint text shown under a field when it's invalid */
 .field-error {
     font-size: 13px;
     color: #e03b3b;
-    min-height: 18px;       /* keeps layout stable even when empty */
+    min-height: 18px;
     margin-bottom: 10px;
 }
 
-/* --- Feedback banners (success / error) --- */
-
-/*
- * SUCCESS: shown in the .then() path only — email was actually sent.
- * Green so it reads as positive confirmation.
- */
+/* green — email was actually sent */
 .success-message {
     display: none;
     color: #1a7a3a;
@@ -310,11 +263,7 @@ body {
     animation: fadeIn 0.3s ease;
 }
 
-/*
- * ERROR: shown in the .catch() path only — something went wrong.
- * Amber/red so it is visually distinct from the green success banner.
- * The user knows the email failed and can take action.
- */
+/* amber — something went wrong, distinct from the green above */
 .error-message {
     display: none;
     color: #7a3a00;
@@ -327,17 +276,13 @@ body {
     animation: fadeIn 0.3s ease;
 }
 
-/* Fade-in animation shared by both feedback banners */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-6px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
+/* --- About / Quality --- */
 
-/* ============================================================
-   7. WHY CHOOSE US (QUALITY GRID)
-   Four cards in a row showing key selling points.
-   ============================================================ */
 .quality {
     padding: 50px;
     text-align: center;
@@ -365,11 +310,8 @@ body {
     margin-bottom: 15px;
 }
 
+/* --- Newsletter --- */
 
-/* ============================================================
-   8. NEWSLETTER
-   Full-width blue band with an inline form and feedback text.
-   ============================================================ */
 .newsletter {
     background: #0d8bf2;
     color: white;
@@ -404,7 +346,6 @@ body {
     border-radius: 4px;
 }
 
-/* Feedback text shown below the newsletter form */
 .newsletter-feedback {
     display: none;
     margin-top: 15px;
@@ -412,21 +353,16 @@ body {
     font-size: 15px;
 }
 
-/* Success variant — white text on the blue background reads well */
 .newsletter-feedback.feedback-success {
     color: white;
 }
 
-/* Error variant — light yellow to contrast clearly against blue background */
 .newsletter-feedback.feedback-error {
     color: #ffe082;
 }
 
+/* --- Footer --- */
 
-/* ============================================================
-   9. FOOTER
-   Dark background, three columns of info.
-   ============================================================ */
 footer {
     background: #222;
     color: white;
@@ -456,11 +392,8 @@ footer {
     margin-top: 20px;
 }
 
+/* --- Mobile --- */
 
-/* ============================================================
-   10. MOBILE MEDIA QUERY
-   Everything stacks vertically on screens narrower than 768 px.
-   ============================================================ */
 @media (max-width: 768px) {
 
     .navbar {

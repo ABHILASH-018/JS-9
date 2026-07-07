@@ -10,18 +10,14 @@
     <title>Laundry Services | Book Online</title>
 
     <link rel="stylesheet" href="styles.css">
-
-    <!-- Font Awesome for icons used in the "Why Choose Us" section -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
 <body>
 
-    <!-- ===================== NAVIGATION ===================== -->
+    <!-- Navbar -->
     <header>
-
         <nav class="navbar">
 
             <div class="logo">
@@ -35,29 +31,20 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
 
-            <!-- Updated by JS after a successful booking -->
             <div class="user-area">
                 Welcome, <span id="userName">Guest</span>
             </div>
 
         </nav>
-
     </header>
 
-    <!-- ===================== HERO ===================== -->
+    <!-- Hero -->
     <section class="hero" id="home">
 
         <div class="hero-content">
-
             <h1>Professional Laundry Service</h1>
-
-            <p>
-                We wash, dry and iron your clothes with extra care.
-                Choose your service and book online in minutes.
-            </p>
-
+            <p>We wash, dry and iron your clothes with extra care. Choose your service and book online in minutes.</p>
             <a href="#booking" class="btn">Book Now</a>
-
         </div>
 
         <div class="hero-image">
@@ -66,7 +53,7 @@
 
     </section>
 
-    <!-- ===================== STATS STRIP ===================== -->
+    <!-- Stats -->
     <section class="stats">
 
         <div class="stat-box">
@@ -86,12 +73,7 @@
 
     </section>
 
-    <!-- ===================== SERVICES ===================== -->
-    <!--
-        Each button calls addService(name, price).
-        The function is defined in script.js and exposed on window
-        so inline onclick handlers can reach it.
-    -->
+    <!-- Services -->
     <section class="services" id="services">
 
         <h2 class="section-title">Our Services</h2>
@@ -132,42 +114,29 @@
 
     </section>
 
-    <!-- ===================== BOOKING ===================== -->
+    <!-- Booking -->
     <section class="booking" id="booking">
 
-        <!-- Left panel: live cart showing selected services -->
+        <!-- Cart -->
         <div class="cart">
             <h2>Your Services</h2>
             <ul id="selectedItems"></ul>
         </div>
 
-        <!-- Right panel: contact details form -->
+        <!-- Form -->
         <div class="booking-form">
 
             <h2>Book Laundry Service</h2>
 
             <form id="bookingForm" novalidate>
 
-                <input
-                    type="text"
-                    id="name"
-                    placeholder="Full Name"
-                    autocomplete="name">
-                <!-- Per-field error hint — hidden until validation fails -->
+                <input type="text"  id="name"  placeholder="Full Name"     autocomplete="name">
                 <p class="field-error" id="nameError"></p>
 
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="Email Address"
-                    autocomplete="email">
+                <input type="email" id="email" placeholder="Email Address" autocomplete="email">
                 <p class="field-error" id="emailError"></p>
 
-                <input
-                    type="tel"
-                    id="phone"
-                    placeholder="Phone Number"
-                    autocomplete="tel">
+                <input type="tel"   id="phone" placeholder="Phone Number"  autocomplete="tel">
                 <p class="field-error" id="phoneError"></p>
 
                 <h3>Total : $<span id="totalPrice">0</span></h3>
@@ -176,12 +145,7 @@
 
             </form>
 
-            <!--
-                Two separate feedback messages:
-                  #successMessage — shown when EmailJS confirms the email was sent
-                  #errorMessage   — shown when EmailJS returns an error (distinct style)
-                Both are hidden by default via CSS (display:none).
-            -->
+            <!-- success and error are styled differently — see styles.css -->
             <p id="successMessage" class="success-message"></p>
             <p id="errorMessage"   class="error-message"></p>
 
@@ -189,7 +153,7 @@
 
     </section>
 
-    <!-- ===================== WHY CHOOSE US ===================== -->
+    <!-- Why Choose Us -->
     <section class="quality" id="quality">
 
         <h2>Why Choose Us?</h2>
@@ -224,35 +188,22 @@
 
     </section>
 
-    <!-- ===================== NEWSLETTER ===================== -->
+    <!-- Newsletter -->
     <section class="newsletter">
 
         <h2>Newsletter</h2>
 
         <form id="newsletterForm" novalidate>
-
-            <input
-                type="text"
-                id="newsletterName"
-                placeholder="Your Name"
-                autocomplete="name">
-
-            <input
-                type="email"
-                id="newsletterEmail"
-                placeholder="Your Email"
-                autocomplete="email">
-
+            <input type="text"  id="newsletterName"  placeholder="Your Name"  autocomplete="name">
+            <input type="email" id="newsletterEmail" placeholder="Your Email" autocomplete="email">
             <button type="submit">Subscribe</button>
-
         </form>
 
-        <!-- Newsletter feedback — inline, no alert() popups -->
         <p id="newsletterFeedback" class="newsletter-feedback"></p>
 
     </section>
 
-    <!-- ===================== FOOTER ===================== -->
+    <!-- Footer -->
     <footer id="contact">
 
         <div class="footer-container">
@@ -281,18 +232,9 @@
 
     </footer>
 
-    <!-- ===================== SCRIPTS ===================== -->
-
-    <!-- EmailJS SDK — must come before config.js and script.js -->
+    <!-- EmailJS SDK, then our config (gitignored), then the app logic -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
-    <!--
-        config.js holds our credentials as window.EMAILJS_CONFIG.
-        It is listed in .gitignore so it never gets committed.
-        Reviewers should copy config.example.js → config.js and fill in their own keys.
-    -->
     <script src="config.js"></script>
-
     <script src="script.js"></script>
 
 </body>
