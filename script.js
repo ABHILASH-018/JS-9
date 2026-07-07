@@ -7,7 +7,7 @@ const newsletterForm = document.getElementById("newsletterForm");
 const successMessage = document.getElementById("successMessage");
 const userName = document.getElementById("userName");
 
-// Load saved cart
+// Load cart if saved before
 if (localStorage.getItem("laundryCart")) {
     cart = JSON.parse(localStorage.getItem("laundryCart"));
     showCart();
@@ -36,7 +36,7 @@ function removeService(index) {
     showCart();
 }
 
-// Display selected services
+// Display cart
 function showCart() {
 
     list.innerHTML = "";
@@ -63,7 +63,7 @@ function showCart() {
     totalPrice.textContent = total;
 }
 
-// Booking form
+// Booking Form
 bookingForm.addEventListener("submit", function (e) {
 
     e.preventDefault();
@@ -78,21 +78,20 @@ bookingForm.addEventListener("submit", function (e) {
     }
 
     if (!email.includes("@") || !email.includes(".")) {
-        alert("Enter a valid email.");
+        alert("Please enter a valid email.");
         return;
     }
 
     if (phone.length < 10) {
-        alert("Enter a valid phone number.");
+        alert("Please enter a valid phone number.");
         return;
     }
 
     if (cart.length === 0) {
-        alert("Please add at least one service.");
+        alert("Please select at least one laundry service.");
         return;
     }
 
-    // Show user name in navbar
     userName.textContent = name;
 
     let total = 0;
@@ -118,42 +117,44 @@ bookingForm.addEventListener("submit", function (e) {
     };
 
     emailjs.send(
-    "service_ysccv5s",
-    "template_gakhmo1",
-    templateParams
-)
+        "service_ysccv5s",
+        "template_gakhmo1",
+        templateParams
+    )
+
     .then(function () {
 
-    successMessage.style.display = "block";
+        successMessage.style.display = "block";
 
-    bookingForm.reset();
+        bookingForm.reset();
 
-    cart = [];
+        cart = [];
 
-    localStorage.removeItem("laundryCart");
+        localStorage.removeItem("laundryCart");
 
-    showCart();
+        showCart();
 
-})
-.catch(function () {
+    })
 
-    alert("Booking saved but email could not be sent.");
+    .catch(function () {
 
-    successMessage.style.display = "block";
+        alert("Booking saved but confirmation email could not be sent.");
 
-    bookingForm.reset();
+        successMessage.style.display = "block";
 
-    cart = [];
+        bookingForm.reset();
 
-    localStorage.removeItem("laundryCart");
+        cart = [];
 
-    showCart();
+        localStorage.removeItem("laundryCart");
+
+        showCart();
+
+    });
 
 });
 
-});
-
-// Newsletter form
+// Newsletter Form
 newsletterForm.addEventListener("submit", function (e) {
 
     e.preventDefault();
@@ -167,7 +168,7 @@ newsletterForm.addEventListener("submit", function (e) {
     }
 
     if (!email.includes("@") || !email.includes(".")) {
-        alert("Enter a valid email.");
+        alert("Please enter a valid email.");
         return;
     }
 
@@ -177,14 +178,14 @@ newsletterForm.addEventListener("submit", function (e) {
     };
 
     emailjs.send(
-        "YOUR_SERVICE_ID",
-        "YOUR_NEWSLETTER_TEMPLATE",
+        "service_ysccv5s",
+        "template_3zc969r",
         templateParams
     )
 
     .then(function () {
 
-        alert("Thanks for subscribing!");
+        alert("Thank you for subscribing!");
 
         newsletterForm.reset();
 
@@ -192,7 +193,7 @@ newsletterForm.addEventListener("submit", function (e) {
 
     .catch(function () {
 
-        alert("Subscription saved but email could not be sent.");
+        alert("Subscription completed but email could not be sent.");
 
         newsletterForm.reset();
 
