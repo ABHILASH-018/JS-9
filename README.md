@@ -49,18 +49,15 @@ JS-9/
 
 ## Security: Why credentials live in `config.js`
 
-Hardcoding API keys directly in `script.js` or `index.html` is a problem
-because **anyone who views the page source can read them**. Rotating exposed
-keys is painful; using environment variables or a backend proxy is the correct
-long-term solution, but for this pure front-end project the accepted approach is:
+Hardcoding API keys directly in `script.js` or `index.html` is a problem because anyone who views the page source can read them. For this front-end project the approach is:
 
-1. Store credentials in a separate file (`config.js`) as a global JS object.
-2. Add `config.js` to `.gitignore` so it is never committed to version control.
-3. Ship `config.example.js` (placeholders only) so other developers know exactly
-   what to fill in.
+1. Store real credentials in `config.js` (gitignored — never committed).
+2. Store **placeholders only** in `config.example.js` (safe to commit).
+3. Anyone cloning the repo copies `config.example.js` → `config.js` and fills in their own keys.
 
-> **If you accidentally commit `config.js`**, rotate your EmailJS public key
-> immediately from the EmailJS dashboard → Account → Public Key.
+> **Rule:** `config.example.js` must only ever contain strings like `"YOUR_PUBLIC_KEY_HERE"`. If you put real credentials in it and commit it, they're in the public git history and must be rotated immediately.
+
+> **If credentials are exposed**, rotate your EmailJS public key from the EmailJS dashboard → Account → Public Key.
 
 ---
 
