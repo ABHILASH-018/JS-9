@@ -1,142 +1,204 @@
-const cart = [];
-const cartList = document.getElementById("selectedItems");
-const totalElement = document.getElementById("totalPrice");
+let cart = [];
+
+const list = document.getElementById("selectedItems");
+const totalPrice = document.getElementById("totalPrice");
 const bookingForm = document.getElementById("bookingForm");
-const successMessage = document.getElementById("successMessage");
 const newsletterForm = document.getElementById("newsletterForm");
+const successMessage = document.getElementById("successMessage");
+const userName = document.getElementById("userName");
 
-const STORAGE_KEY = "laundryCart";
-
-// Restore cart if it exists
-const savedCart = JSON.parse(localStorage.getItem(STORAGE_KEY));
-
-if (savedCart && savedCart.length) {
-    cart.push(...savedCart);
-    renderCart();
+// Load saved cart
+if (localStorage.getItem("laundryCart")) {
+    cart = JSON.parse(localStorage.getItem("laundryCart"));
+    showCart();
 }
 
+// Add service
 function addService(name, price) {
+
     cart.push({
-        name,
-        price
+        name: name,
+        price: price
     });
 
-    updateStorage();
-    renderCart();
+    localStorage.setItem("laundryCart", JSON.stringify(cart));
+
+    showCart();
 }
 
+// Remove service
 function removeService(index) {
+
     cart.splice(index, 1);
 
-    updateStorage();
-    renderCart();
+    localStorage.setItem("laundryCart", JSON.stringify(cart));
+
+    showCart();
 }
 
-function updateStorage() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
-}
+// Display selected services
+function showCart() {
 
-function renderCart() {
-    cartList.innerHTML = "";
+    list.innerHTML = "";
 
     let total = 0;
 
-    cart.forEach((service, index) => {
+    for (let i = 0; i < cart.length; i++) {
 
-        total += service.price;
+        total += cart[i].price;
 
-        const item = document.createElement("li");
+        let item = document.createElement("li");
 
-        item.innerHTML = `
-            <span>${service.name} - $${service.price}</span>
-            <button class="remove-btn" onclick="removeService(${index})">
-                Remove
-            </button>
-        `;
+        item.innerHTML =
+            cart[i].name +
+            " - $" +
+            cart[i].price +
+            ' <button class="remove-btn" onclick="removeService(' +
+            i +
+            ')">Remove</button>';
 
-        cartList.appendChild(item);
-    });
+        list.appendChild(item);
+    }
 
-    totalElement.textContent = total;
+    totalPrice.textContent = total;
 }
 
-function isValidEmail(email) {
-    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return pattern.test(email);
-}
+// Booking form
+bookingForm.addEventListener("submit", function (e) {
 
-bookingForm.addEventListener("submit", function (event) {
+    e.preventDefault();
 
-    event.preventDefault();
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let phone = document.getElementById("phone").value.trim();
 
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-
-    if (!name || !email || !phone) {
-        alert("Please complete all fields.");
+    if (name === "" || email === "" || phone === "") {
+        alert("Please fill in all fields.");
         return;
     }
 
-    if (!isValidEmail(email)) {
-        alert("Please enter a valid email address.");
+    if (!email.includes("@") || !email.includes(".")) {
+        alert("Enter a valid email.");
         return;
     }
 
     if (phone.length < 10) {
-        alert("Please enter a valid phone number.");
+        alert("Enter a valid phone number.");
         return;
     }
 
     if (cart.length === 0) {
-        alert("Please add at least one laundry service.");
+        alert("Please add at least one service.");
         return;
     }
 
-    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    // Show user name in navbar
+    userName.textContent = name;
 
-    const templateParams = {
+    let total = 0;
+    let services = "";
+
+    for (let i = 0; i < cart.length; i++) {
+
+        total += cart[i].price;
+
+        services += cart[i].name;
+
+        if (i < cart.length - 1) {
+            services += ", ";
+        }
+    }
+
+    let templateParams = {
         customer_name: name,
         customer_email: email,
         phone: phone,
-        services: cart.map(item => item.name).join(", "),
+        services: services,
         total: total
     };
 
     emailjs.send(
+    "service_ysccv5s",
+    "template_gakhmo1",
+    templateParams
+)
+    .then(function () {
+
+    successMessage.style.display = "block";
+
+    bookingForm.reset();
+
+    cart = [];
+
+    localStorage.removeItem("laundryCart");
+
+    showCart();
+
+})
+.catch(function () {
+
+    alert("Booking saved but email could not be sent.");
+
+    successMessage.style.display = "block";
+
+    bookingForm.reset();
+
+    cart = [];
+
+    localStorage.removeItem("laundryCart");
+
+    showCart();
+
+});
+
+});
+
+// Newsletter form
+newsletterForm.addEventListener("submit", function (e) {
+
+    e.preventDefault();
+
+    let name = document.getElementById("newsletterName").value.trim();
+    let email = document.getElementById("newsletterEmail").value.trim();
+
+    if (name === "" || email === "") {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    if (!email.includes("@") || !email.includes(".")) {
+        alert("Enter a valid email.");
+        return;
+    }
+
+    let templateParams = {
+        customer_name: name,
+        customer_email: email
+    };
+
+    emailjs.send(
         "YOUR_SERVICE_ID",
-        "YOUR_TEMPLATE_ID",
+        "YOUR_NEWSLETTER_TEMPLATE",
         templateParams
     )
-    .then(() => {
 
-        successMessage.style.display = "block";
+    .then(function () {
 
-        bookingForm.reset();
+        alert("Thanks for subscribing!");
 
-        cart.length = 0;
-
-        localStorage.removeItem(STORAGE_KEY);
-
-        renderCart();
+        newsletterForm.reset();
 
     })
-    .catch(() => {
-        alert("Booking completed, but the confirmation email could not be sent.");
+
+    .catch(function () {
+
+        alert("Subscription saved but email could not be sent.");
+
+        newsletterForm.reset();
+
     });
 
 });
 
-newsletterForm.addEventListener("submit", function (event) {
-
-    event.preventDefault();
-
-    alert("Thank you for subscribing!");
-
-    newsletterForm.reset();
-
-});
-
-// Make functions available for inline buttons
 window.addService = addService;
 window.removeService = removeService;

@@ -2,19 +2,23 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Laundry Services</title>
 
     <link rel="stylesheet" href="styles.css">
 
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 </head>
 
 <body>
 
     <header>
+
         <nav class="navbar">
 
             <div class="logo">
@@ -28,7 +32,12 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
 
+            <div class="user-area">
+                Welcome, <span id="userName">Guest</span>
+            </div>
+
         </nav>
+
     </header>
 
     <section class="hero" id="home">
@@ -42,14 +51,14 @@
                 Choose your service and book online in minutes.
             </p>
 
-            <a href="#booking" class="btn">
-                Book Now
-            </a>
+            <a href="#booking" class="btn">Book Now</a>
 
         </div>
 
         <div class="hero-image">
+
             <img src="washingmachine.png" alt="Laundry Machine">
+
         </div>
 
     </section>
@@ -183,13 +192,13 @@
 
             <div class="quality-card">
                 <i class="fa-solid fa-headset"></i>
-                <h3>Support</h3>
+                <h3>Customer Support</h3>
                 <p>Friendly customer support.</p>
             </div>
 
             <div class="quality-card">
                 <i class="fa-solid fa-wallet"></i>
-                <h3>Affordable</h3>
+                <h3>Affordable Prices</h3>
                 <p>High quality at reasonable prices.</p>
             </div>
 
@@ -205,11 +214,13 @@
 
             <input
                 type="text"
+                id="newsletterName"
                 placeholder="Your Name"
                 required>
 
             <input
                 type="email"
+                id="newsletterEmail"
                 placeholder="Your Email"
                 required>
 
@@ -251,10 +262,12 @@
 
     </footer>
 
+    <!-- EmailJS -->
+
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <script>
-        emailjs.init("YOUR_PUBLIC_KEY");
+        emailjs.init("YC5Cqq3PRAyukZ4qv");
     </script>
 
     <script src="script.js"></script>
